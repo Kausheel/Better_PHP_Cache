@@ -18,7 +18,12 @@
 
         public function get($entry_name)
         {
+            if(!$entry_name)
+            {
+                return FALSE;
+            }
 
+            return apc_fetch($entry_name);
         }
 
         public function delete($entry_name)
