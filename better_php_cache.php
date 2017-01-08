@@ -36,7 +36,10 @@
 
         public function delete($entry_name)
         {
-
+            if($entry_name)
+            {
+                return apc_delete($entry_name);
+            }
         }
     }
 ?>
