@@ -1,9 +1,17 @@
 <?php
     class Better_PHP_Cache
     {
-        public function __construct()
-        {
+        private $cache_files_dir;
 
+        public function __construct($cache_files_dir)
+        {
+            if($cache_files_dir)
+            {
+                if(file_exists($cache_files_dir) && is_writable($cache_files_dir))
+                {
+                    $this->cache_files_dir = $cache_files_dir;
+                }
+            }
         }
 
         public function store($entry_name, $entry_value, $time_to_live)
