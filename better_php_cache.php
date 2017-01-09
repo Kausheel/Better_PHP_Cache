@@ -108,9 +108,16 @@
 
         }
 
-        public function copy_entry_to_memory($entry_name)
+        public function copy_entry_to_memory($entry_name, $new_time_to_live, $delete_from_filesystem = FALSE)
         {
+            $filesystem_entry_value = $this->fetch_from_filesystem($entry_name);
 
+            if($delete_from_filesystem == TRUE)
+            {
+                $this->delete_from_filesystem($entry_name);
+            }
+
+            return apc_store($entry_name, $filesystem_entry_value, $new_time_to_live);
         }
 
         public function copy_all_entries_to_filesystem()
