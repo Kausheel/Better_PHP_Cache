@@ -32,7 +32,7 @@
             }
         }
 
-        public function store($entry_name, $entry_value, $time_to_live)
+        public function store($entry_name, $entry_value, $time_to_live, $store_in_filesystem = FALSE)
         {
             if(!($entry_name && $entry_value && $time_to_live))
             {
@@ -46,21 +46,45 @@
                 apc_store('cache_stats', $cache_stats);
             }
 
+            if($store_in_filesystem == TRUE)
+            {
+                $this->store_to_filesystem($entry_name, $entry_value, $time_to_live);
+            }
+            else
+            {
+                return apc_store($entry_name, $entry_value, $time_to_live);
+            }
         }
 
-        public function fetch($entry_name)
+        public function fetch($entry_name, $fetch_from_filesystem = FALSE)
         {
             if(!$entry_name)
             {
                 return FALSE;
             }
 
-            return apc_fetch($entry_name);
+            if($fetch_from_filesystem == TRUE)
+            {
+                return $this->fetch_from_filesystem($entry_name);
+            }
+            else
+            {
+                return apc_fetch($entry_name);
+            }
         }
 
-        public function delete($entry_name)
+        public function delete($entry_name, $delete_from_filesystem = FALSE)
         {
-            if($entry_name)
+            if(!$entry_name)
+            {
+                return FALSE;
+            }
+
+            if($delete_from_filesystem == TRUE)
+            {
+                return $this->delete_from_filesystem($entry_name);
+            }
+            else
             {
                 return apc_delete($entry_name);
             }
