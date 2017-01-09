@@ -103,9 +103,16 @@
             apc_store('cache_stats', $cache_stats);
         }
 
-        public function copy_entry_to_filesystem($entry_name)
+        public function copy_entry_to_filesystem($entry_name, $time_to_live, $delete_from_memory = FALSE)
         {
+            $entry_value = apc_fetch($entry_name);
 
+            if($delete_from_memory == TRUE)
+            {
+                apc_delete($entry_name);
+            }
+
+            return $this->store_in_filesystem($entry_name, $entry_value, $time_to_live);
         }
 
         public function copy_entry_to_memory($entry_name, $new_time_to_live, $delete_from_filesystem = FALSE)
