@@ -63,6 +63,13 @@
                 return FALSE;
             }
 
+            if($this->monitor_cache_stats == TRUE)
+            {
+                $cache_stats = apc_fetch('cache_stats');
+                $cache_stats[$entry_name]['fetch_count'] = $cache_stats[$entry_name]['fetch_count'] + 1;
+                apc_store('cache_stats', $cache_stats);
+            }
+
             if($fetch_from_filesystem == TRUE)
             {
                 return $this->fetch_from_filesystem($entry_name);
