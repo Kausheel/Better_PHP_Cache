@@ -134,7 +134,21 @@
 
         public function copy_all_entries_to_memory()
         {
+            $filesystem_entry_array = $this->fetch_all_from_filesystem();
 
+            if($filesystem_entry_array)
+            {
+                foreach($filesystem_entry_array as $entry_name => $entry_value)
+                {
+                    apc_store($entry_name, $entry_value);
+                }
+
+                return TRUE;
+            }
+            else
+            {
+                return FALSE;
+            }
         }
 
         public function get_cache_stats()
