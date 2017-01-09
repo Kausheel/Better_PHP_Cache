@@ -137,9 +137,9 @@
 
         }
 
-        public function get_cache_entry_stats()
+        public function get_cache_stats()
         {
-
+            return apc_fetch('cache_stats');
         }
 
         private function store_in_filesystem($entry_name, $entry_value, $time_to_live)
