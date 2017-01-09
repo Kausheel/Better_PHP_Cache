@@ -152,6 +152,11 @@
 
         }
 
+        private function fetch_all_from_filesystem()
+        {
+
+        }
+
         private function delete_from_filesystem($entry_name)
         {
 
