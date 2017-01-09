@@ -71,5 +71,45 @@
             $cache_stats = NULL;
             apc_store('cache_stats', $cache_stats);
         }
+
+        public function copy_entry_to_filesystem($entry_name)
+        {
+
+        }
+
+        public function copy_entry_to_memory($entry_name)
+        {
+
+        }
+
+        public function copy_all_entries_to_filesystem()
+        {
+
+        }
+
+        public function copy_all_entries_to_memory()
+        {
+
+        }
+
+        public function get_cache_entry_stats()
+        {
+
+        }
+
+        private function store_in_filesystem($entry_name, $entry_value, $time_to_live)
+        {
+
+        }
+
+        private function fetch_from_filesystem($entry_name)
+        {
+
+        }
+
+        private function delete_from_filesystem($entry_name)
+        {
+
+        }
     }
 ?>
