@@ -156,6 +156,11 @@
             return apc_fetch('cache_stats');
         }
 
+        private function fetch_all_from_memory()
+        {
+
+        }
+
         private function store_in_filesystem($entry_name, $entry_value, $time_to_live)
         {
 
