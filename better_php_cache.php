@@ -129,7 +129,12 @@
 
         public function copy_all_entries_to_filesystem()
         {
+            $memory_entry_array = $this->fetch_all_from_memory();
 
+            foreach ($memory_entry_array as $entry_name => $entry_value)
+            {
+                $this->store_in_filesystem($entry_name, $entry_value, $time_to_live);
+            }
         }
 
         public function copy_all_entries_to_memory()
