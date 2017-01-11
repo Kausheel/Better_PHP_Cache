@@ -97,6 +97,34 @@
             }
         }
 
+        public function delete_expired_entries($purge_from_filesystem = FALSE)
+        {
+            if($purge_from_filesystem == FALSE)
+            {
+                $entries_in_memory = $this->fetch_all_from_memory();
+
+                foreach($entries_in_memory as $entry)
+                {
+                    if(($entry['time_to_live'] + $entry['creation_timestamp']) < time())
+                    {
+                        $this->delete_from_memory($entry['name']);
+                    }
+                }
+            }
+            else
+            {
+                $entries_in_filesystem = $this->fetch_all_from_filesystem();
+
+                foreach($entries_in_filesystem as $entry)
+                {
+                    if(($entry['time_to_live'] + $entry['creation_timestamp']) < time())
+                    {
+                        $this->delete_from_filesystem($entry['name']);
+                    }
+                }
+            }
+        }
+
         public function refresh_entry_ttl($entry_name, $time_to_live, $entry_in_filesystem = FALSE)
         {
             if(!($entry_name && $time_to_live))
