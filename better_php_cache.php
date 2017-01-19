@@ -230,7 +230,7 @@
 
         private function delete_from_filesystem($entry_name)
         {
-
+            return unlink($entry_name);
         }
     }
 ?>
