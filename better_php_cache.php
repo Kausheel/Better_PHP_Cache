@@ -203,7 +203,7 @@
             }
         }
 
-        public function get_cache_stats()
+        public function fetch_cache_stats()
         {
             return apc_fetch('cache_stats');
         }
