@@ -139,12 +139,12 @@
             if($entry_in_filesystem == TRUE)
             {
                 $entry_value = $this->fetch_from_filesystem($entry_name);
-                $this->store_in_filesystem($entry_name, $entry_value, $time_to_live);
+                return $this->store_in_filesystem($entry_name, $entry_value, $time_to_live);
             }
             else
             {
                 $entry_value = apc_fetch($entry_name);
-                apc_store($entry_name, $entry_value, $time_to_live);
+                return apc_store($entry_name, $entry_value, $time_to_live);
             }
         }
 
