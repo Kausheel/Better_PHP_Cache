@@ -215,7 +215,12 @@
 
         private function store_in_filesystem($entry_name, $entry_value, $time_to_live)
         {
+            $expiry = $time_to_live + time();
 
+            $cache_data = array('data' => $entry_value, 'expiry' => $expiry);
+            $cache_data = json_encode($cache_data);
+
+            return file_put_contents($entry_name, $cache_data);
         }
 
         private function fetch_from_filesystem($entry_name)
