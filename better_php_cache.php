@@ -113,15 +113,9 @@
             }
             else
             {
-                $entries_in_filesystem = $this->fetch_all_from_filesystem();
-
-                foreach($entries_in_filesystem as $entry)
-                {
-                    if(($entry['time_to_live'] + $entry['creation_timestamp']) < time())
-                    {
-                        $this->delete_from_filesystem($entry['name']);
-                    }
-                }
+                //When a filesystem entry is fetched, its expiry time is checked and the entry is deleted if necessary.
+                //Therefore, we don't need to run another delete function. Just fetching every entry is enough to remove the expired ones.
+                $this->fetch_all_from_filesystem();
             }
         }
 
