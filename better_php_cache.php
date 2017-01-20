@@ -225,7 +225,18 @@
 
         private function fetch_from_filesystem($entry_name)
         {
+            $cache_data = file_get_contents($entry_name);
+            $cache_data = json_decode($cache_data, TRUE);
 
+            if($cache_data['expiry'] < time())
+            {
+                $this->delete_from_filesystem($entry_name);
+                return FALSE;
+            }
+            else
+            {
+                return $cache_data['data'];
+            }
         }
 
         private function fetch_all_from_filesystem()
