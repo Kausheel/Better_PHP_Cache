@@ -213,7 +213,21 @@
 
         private function fetch_all_from_memory()
         {
+            $apc_iterator = new APCIterator('user');
 
+            foreach($apc_iterator as $entry)
+            {
+                $cache_entry_array[$entry['key']] = $entry['value'];
+            }
+
+            if($cache_entry_array)
+            {
+                return $cache_entry_array;
+            }
+            else
+            {
+                return FALSE;
+            }
         }
 
         //Store entry to filesystem.
