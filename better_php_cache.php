@@ -211,7 +211,7 @@
         }
 
         //Fetch all cache entries from memory.
-        private function fetch_all_from_memory()
+        public function fetch_all_from_memory()
         {
             $apc_iterator = new APCIterator('user');
 
@@ -233,7 +233,7 @@
         }
 
         //Store entry to filesystem.
-        private function store_in_filesystem($entry_name, $entry_value, $time_to_live)
+        public function store_in_filesystem($entry_name, $entry_value, $time_to_live)
         {
             $expiry = $time_to_live + time();
 
@@ -245,7 +245,7 @@
         }
 
         //Fetch cache entry from filesystem.
-        private function fetch_from_filesystem($entry_name)
+        public function fetch_from_filesystem($entry_name)
         {
             $cache_data = file_get_contents($entry_name);
 
@@ -264,7 +264,7 @@
             }
         }
 
-        private function fetch_all_from_filesystem()
+        public function fetch_all_from_filesystem()
         {
             //Get a list of all cache files.
             $cache_files_array = scandir(getcwd());
@@ -307,7 +307,7 @@
         }
 
         //Delete the cache entry from the filesystem.
-        private function delete_from_filesystem($entry_name)
+        public function delete_from_filesystem($entry_name)
         {
             return unlink($entry_name);
         }
