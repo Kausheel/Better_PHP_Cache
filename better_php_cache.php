@@ -20,7 +20,7 @@
                 $this->monitor_cache_stats = TRUE;
                 $cache_stats = apc_fetch('cache_stats');
 
-                if(!$cache_stats)
+                if(!$cache_stats['monitoring_start_timestamp'])
                 {
                     $cache_stats['monitoring_start_timestamp'] = time();
                 }
