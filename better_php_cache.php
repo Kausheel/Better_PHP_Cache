@@ -211,15 +211,18 @@
             return apc_fetch('cache_stats');
         }
 
+        //Fetch all cache entries from memory.
         private function fetch_all_from_memory()
         {
             $apc_iterator = new APCIterator('user');
 
+            //Cycle through each APC entry, and build an array with the keys and values.
             foreach($apc_iterator as $entry)
             {
                 $cache_entry_array[$entry['key']] = $entry['value'];
             }
 
+            //Check if there is at least 1 entry.
             if($cache_entry_array)
             {
                 return $cache_entry_array;
