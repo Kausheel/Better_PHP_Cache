@@ -310,7 +310,7 @@
         //Delete the cache entry from the filesystem.
         private function delete_from_filesystem($entry_name)
         {
-            return unlink($entry_name);
+            return unlink($this->cache_files_dir.$entry_name);
         }
     }
 ?>
