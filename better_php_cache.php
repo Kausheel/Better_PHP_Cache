@@ -250,7 +250,44 @@
 
         private function fetch_all_from_filesystem()
         {
+            //Get a list of all cache files.
+            $cache_files_array = scandir($this->cache_files_dir);
 
+            //Remove the '.' and '..' entries added by default by the scandir() function.
+            $cache_files_array = array_diff($cache_files_array, array('..', '.'));
+
+            $time = time();
+
+            //Cycle through each file name.
+            foreach ($cache_files_array as $file)
+            {
+                $file_contents = file_get_contents($file);
+
+                //Convert the JSON data into an associative array.
+                $decoded_file_contents = json_decode($file_contents, TRUE);
+
+                //Check the expiry.
+                if($decoded_file_contents['expiry'] > $time)
+                {
+                    //Add the cache entry to an array.
+                    $cache_data_array[] = $decoded_file_contents['data'];
+                }
+                else
+                {
+                    //Delete the expired entries from the filesystem.
+                    $this->delete_from_filesystem($file);
+                }
+            }
+
+            //Check that there is at least 1 cache entry.
+            if($cache_data_array)
+            {
+                return $cache_data_array;
+            }
+            else
+            {
+                return FALSE;
+            }
         }
 
         //Delete the cache entry from the filesystem.
