@@ -110,15 +110,8 @@
         {
             if($purge_from_filesystem == FALSE)
             {
-                $entries_in_memory = $this->fetch_all_from_memory();
-
-                foreach($entries_in_memory as $entry)
-                {
-                    if(($entry['time_to_live'] + $entry['creation_timestamp']) < time())
-                    {
-                        $this->delete_from_memory($entry['name']);
-                    }
-                }
+                //APC checks entry expiries when an entry is fetched. Fetching all entries will automatically clear the expired ones.
+                $this->fetch_all_from_memory();
             }
             else
             {
