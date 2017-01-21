@@ -4,7 +4,7 @@
         private $cache_files_dir;
         private $monitor_cache_stats;
 
-        public function __construct($cache_files_dir, $monitor_cache_stats = TRUE)
+        public function __construct($cache_files_dir, $monitor_cache_stats = FALSE)
         {
             //Check if a cache directory has been specified, and is writable.
             if($cache_files_dir)
