@@ -51,7 +51,7 @@
 
             if($store_in_filesystem == TRUE)
             {
-                $this->store_to_filesystem($entry_name, $entry_value, $time_to_live);
+                $this->store_in_filesystem($entry_name, $entry_value, $time_to_live);
             }
             else
             {
