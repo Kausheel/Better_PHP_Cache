@@ -1,7 +1,6 @@
 <?php
     class Better_PHP_Cache
     {
-        private $cache_files_dir;
         private $monitor_cache_stats;
 
         public function __construct($cache_files_dir, $monitor_cache_stats = FALSE)
@@ -11,7 +10,7 @@
             {
                 if(file_exists($cache_files_dir) && is_writable($cache_files_dir))
                 {
-                    $this->cache_files_dir = $cache_files_dir;
+                    chdir($cache_files_dir);
                 }
             }
 
@@ -242,13 +241,13 @@
             $cache_data = array('data' => $entry_value, 'expiry' => $expiry);
             $cache_data = json_encode($cache_data);
 
-            return file_put_contents($this->cache_files_dir.$entry_name, $cache_data);
+            return file_put_contents($entry_name, $cache_data);
         }
 
         //Fetch cache entry from filesystem.
         private function fetch_from_filesystem($entry_name)
         {
-            $cache_data = file_get_contents($this->cache_files_dir.$entry_name);
+            $cache_data = file_get_contents($entry_name);
 
             //Convert the file data into an associative JSON array.
             $cache_data = json_decode($cache_data, TRUE);
@@ -268,7 +267,7 @@
         private function fetch_all_from_filesystem()
         {
             //Get a list of all cache files.
-            $cache_files_array = scandir($this->cache_files_dir);
+            $cache_files_array = scandir(getcwd());
 
             //Remove the '.' and '..' entries added by default by the scandir() function.
             $cache_files_array = array_diff($cache_files_array, array('..', '.'));
@@ -278,7 +277,7 @@
             //Cycle through each file name.
             foreach ($cache_files_array as $file)
             {
-                $file_contents = file_get_contents($this->cache_files_dir.$file);
+                $file_contents = file_get_contents($file);
 
                 //Convert the JSON data into an associative array.
                 $decoded_file_contents = json_decode($file_contents, TRUE);
@@ -310,7 +309,7 @@
         //Delete the cache entry from the filesystem.
         private function delete_from_filesystem($entry_name)
         {
-            return unlink($this->cache_files_dir.$entry_name);
+            return unlink($entry_name);
         }
     }
 ?>
