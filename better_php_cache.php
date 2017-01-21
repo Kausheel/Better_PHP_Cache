@@ -44,7 +44,7 @@
             if($this->monitor_cache_stats == TRUE)
             {
                 //Track how often this cache entry name was stored.
-                $cache_stats = apc_fetch($cache_stats);
+                $cache_stats = apc_fetch('cache_stats');
                 $cache_stats[$entry_name]['store_count'] = $cache_stats[$entry_name]['store_count'] + 1;
                 apc_store('cache_stats', $cache_stats);
             }
