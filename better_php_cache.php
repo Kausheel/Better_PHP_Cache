@@ -247,7 +247,14 @@
         //Fetch cache entry from filesystem.
         public function fetch_from_filesystem($entry_name)
         {
-            $cache_data = file_get_contents($entry_name);
+            if(file_exists($entry_name))
+            {
+                $cache_data = file_get_contents($entry_name);
+            }
+            else
+            {
+                return FALSE;
+            }
 
             //Convert the file data into an associative JSON array.
             $cache_data = json_decode($cache_data, TRUE);
