@@ -242,13 +242,13 @@
             $cache_data = array('data' => $entry_value, 'expiry' => $expiry);
             $cache_data = json_encode($cache_data);
 
-            return file_put_contents($entry_name, $cache_data);
+            return file_put_contents($this->cache_files_dir.$entry_name, $cache_data);
         }
 
         //Fetch cache entry from filesystem.
         private function fetch_from_filesystem($entry_name)
         {
-            $cache_data = file_get_contents($entry_name);
+            $cache_data = file_get_contents($this->cache_files_dir.$entry_name);
 
             //Convert the file data into an associative JSON array.
             $cache_data = json_decode($cache_data, TRUE);
@@ -278,7 +278,7 @@
             //Cycle through each file name.
             foreach ($cache_files_array as $file)
             {
-                $file_contents = file_get_contents($file);
+                $file_contents = file_get_contents($this->cache_files_dir.$file);
 
                 //Convert the JSON data into an associative array.
                 $decoded_file_contents = json_decode($file_contents, TRUE);
