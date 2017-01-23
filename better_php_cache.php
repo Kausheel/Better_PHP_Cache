@@ -43,10 +43,7 @@
 
             if($this->monitor_cache_stats == TRUE)
             {
-                //Track how often this cache entry name was stored.
-                $cache_stats = apc_fetch('cache_stats');
-                $cache_stats[$entry_name]['store_count'] = $cache_stats[$entry_name]['store_count'] + 1;
-                apc_store('cache_stats', $cache_stats);
+                $this->increment_cache_stats_store_count($entry_name);
             }
 
             if($store_in_filesystem == TRUE)
@@ -242,6 +239,13 @@
             $cache_stats['most_stored_entry'] = $most_stored_entry['name'];
 
             return $cache_stats;
+        }
+
+        private function increment_cache_stats_store_count($cache_entry)
+        {
+            $cache_stats = apc_fetch('cache_stats');
+            $cache_stats[$cache_entry]['store_count'] = $cache_stats[$cache_entry]['store_count'] + 1;
+            apc_store('cache_stats', $cache_stats);
         }
 
         //Fetch all cache entries from memory.
