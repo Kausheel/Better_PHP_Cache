@@ -41,6 +41,7 @@
                 return FALSE;
             }
 
+            //Track how often this entry has been stored.
             if($this->monitor_cache_stats == TRUE)
             {
                 $this->increment_cache_stats_store_count($entry_name);
@@ -64,6 +65,7 @@
                 return FALSE;
             }
 
+            //Track how often this entry has been fetched.
             if($this->monitor_cache_stats == TRUE)
             {
                 $this->increment_cache_stats_fetch_count($entry_name);
@@ -78,6 +80,7 @@
                 $entry_value = apc_fetch($entry_name)
             }
 
+            //Track how often a cache fetch 'misses'.
             if($this->monitor_cache_stats == TRUE && !$entry_value)
             {
                 $this->increment_cache_stats_miss_count($entry_name);
