@@ -66,10 +66,7 @@
 
             if($this->monitor_cache_stats == TRUE)
             {
-                //Track how often this cache entry was accessed.
-                $cache_stats = apc_fetch('cache_stats');
-                $cache_stats[$entry_name]['fetch_count'] = $cache_stats[$entry_name]['fetch_count'] + 1;
-                apc_store('cache_stats', $cache_stats);
+                $this->increment_cache_stats_fetch_count($entry_name);
             }
 
             if($fetch_from_filesystem == TRUE)
@@ -245,6 +242,13 @@
         {
             $cache_stats = apc_fetch('cache_stats');
             $cache_stats[$cache_entry]['store_count'] = $cache_stats[$cache_entry]['store_count'] + 1;
+            apc_store('cache_stats', $cache_stats);
+        }
+
+        private function increment_cache_stats_fetch_count($cache_entry)
+        {
+            $cache_stats = apc_fetch('cache_stats');
+            $cache_stats[$cache_entry]['fetch_count'] = $cache_stats[$cache_entry]['fetch_count'] + 1;
             apc_store('cache_stats', $cache_stats);
         }
 
