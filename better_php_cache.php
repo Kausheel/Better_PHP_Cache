@@ -71,12 +71,19 @@
 
             if($fetch_from_filesystem == TRUE)
             {
-                return $this->fetch_from_filesystem($entry_name);
+                $entry_value = $this->fetch_from_filesystem($entry_name);
             }
             else
             {
-                return apc_fetch($entry_name);
+                $entry_value = apc_fetch($entry_name)
             }
+
+            if($this->monitor_cache_stats == TRUE && !$entry_value)
+            {
+                $this->increment_cache_stats_miss_count($entry_name);
+            }
+
+            return $entry_value;
         }
 
         //Delete entry from memory by default, or optionally delete from filesystem.
@@ -236,6 +243,13 @@
             $cache_stats['most_stored_entry'] = $most_stored_entry['name'];
 
             return $cache_stats;
+        }
+
+        private function increment_cache_stats_miss_count($cache_entry)
+        {
+            $cache_stats = apc_fetch('cache_stats');
+            $cache_stats[$cache_entry]['miss_count'] = $cache_stats[$cache_entry]['miss_count'] + 1;
+            apc_store('cache_stats', $cache_stats);
         }
 
         private function increment_cache_stats_store_count($cache_entry)
