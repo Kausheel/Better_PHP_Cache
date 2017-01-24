@@ -135,13 +135,23 @@
             if($entry_in_filesystem == TRUE)
             {
                 $entry_value = $this->fetch_from_filesystem($entry_name);
-                return $this->store_in_filesystem($entry_name, $entry_value, $time_to_live);
+
+                if($entry_value)
+                {
+                    return $this->store_in_filesystem($entry_name, $entry_value, $time_to_live);
+                }
             }
             else
             {
                 $entry_value = apc_fetch($entry_name);
-                return apc_store($entry_name, $entry_value, $time_to_live);
+
+                if($entry_value)
+                {
+                    return apc_store($entry_name, $entry_value, $time_to_live);
+                }
             }
+
+            return FALSE;
         }
 
         //Remove existing cache statistics data.
