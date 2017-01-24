@@ -77,7 +77,7 @@
             }
             else
             {
-                $entry_value = apc_fetch($entry_name)
+                $entry_value = apc_fetch($entry_name);
             }
 
             //Track how often a cache fetch 'misses'.
