@@ -223,6 +223,11 @@
         {
             $cache_stats = apc_fetch('cache_stats');
 
+            if(!$cache_stats)
+            {
+                return FALSE;
+            }
+
             //Cycle through each cache entry
             foreach($cache_stats as $cache_entry => $cache_data)
             {
