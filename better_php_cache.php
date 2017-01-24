@@ -367,7 +367,7 @@
                 if($decoded_file_contents['expiry'] > $time)
                 {
                     //Add the cache entry to an array.
-                    $cache_data_array[] = $decoded_file_contents['data'];
+                    $cache_data_array[$file] = $decoded_file_contents['data'];
                 }
                 else
                 {
