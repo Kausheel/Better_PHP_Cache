@@ -402,7 +402,14 @@
         //Delete the cache entry from the filesystem.
         private function delete_from_filesystem($entry_name)
         {
-            return unlink($entry_name);
+            if(file_exists($entry_name))
+            {
+                return unlink($entry_name);
+            }
+            else
+            {
+                return FALSE;
+            }
         }
     }
 ?>
