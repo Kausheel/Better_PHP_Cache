@@ -205,7 +205,8 @@
         }
 
         //Copy all entries from the filesystem to memory.
-        public function copy_all_entries_to_memory()
+        //Optionally, delete the original entries after copying.
+        public function copy_all_entries_to_memory($delete_from_filesystem_after_copy)
         {
             $filesystem_entry_array = $this->fetch_all_from_filesystem();
 
@@ -214,6 +215,11 @@
                 foreach($filesystem_entry_array as $entry_name => $entry_value)
                 {
                     apc_store($entry_name, $entry_value);
+
+                    if($delete_from_filesystem_after_copy == TRUE)
+                    {
+                        $this->delete_from_filesystem($entry_name);
+                    }
                 }
 
                 return TRUE;
