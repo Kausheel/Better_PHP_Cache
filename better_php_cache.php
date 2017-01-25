@@ -188,13 +188,19 @@
         }
 
         //Copy all entries from memory to the filesystem.
-        public function copy_all_entries_to_filesystem()
+        //Optionally, delete the original entries after copying.
+        public function copy_all_entries_to_filesystem($delete_from_memory_after_copy = FALSE)
         {
             $memory_entry_array = $this->fetch_all_from_memory();
 
             foreach ($memory_entry_array as $entry_name => $entry_value)
             {
                 $this->store_in_filesystem($entry_name, $entry_value, $time_to_live);
+
+                if($delete_from_memory_after_copy == TRUE)
+                {
+                    $this->delete($entry_name);
+                }
             }
         }
 
