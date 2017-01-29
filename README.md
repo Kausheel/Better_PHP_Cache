@@ -1,8 +1,11 @@
-#A PHP Caching library extending APC's functionality with a filesystem cache
+#Better_PHP_Cache
+
+A PHP Caching library extending APC's functionality with a filesystem cache.
 
 ###Features
 
 Having an easy way to sync the APC memory cache with the filesystem has multiple uses.
+
 1. By default, APC has no way to share data between a web server process and a PHP CLI process, so having a way to read/write data to a filesystem gives you a bridge between APC on both processes. This is useful if you use PHP scripts for background tasks, and want to use a single cache between both the web server and the CLI. The fact that the filesystem is slower than memory shouldn't have any noticeable affect on your application, since you'll only interact with the filesystem when a sync is necessary. After that point, each process can just read from its own memory cache.
 
 2. A filesystem cache can be helpful if you are storing massive data sets which take up too much memory. The penalty of the slower filesystem cache can be worth it in exchange for avoiding a large MySQL query, for example.
