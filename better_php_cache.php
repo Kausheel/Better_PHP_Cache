@@ -233,6 +233,11 @@
         //Fetch cache statistics.
         public function fetch_cache_stats()
         {
+            if(!$this->monitor_cache_stats)
+            {
+                return FALSE;
+            }
+
             $cache_stats = apc_fetch('cache_stats');
 
             if(!$cache_stats)
