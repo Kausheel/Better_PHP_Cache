@@ -177,7 +177,7 @@
         }
 
         //Copy an entry from the filesystem to memory, and optionally remove the original copy.
-        public function copy_entry_to_memory($entry_name, $new_time_to_live = FALSE, $delete_from_filesystem = FALSE)
+        public function copy_entry_to_memory($entry_name, $delete_from_filesystem = FALSE)
         {
             $filesystem_entry = $this->fetch_from_filesystem($entry_name);
             $filesystem_entry_value = $filesystem_entry['data'];
@@ -187,7 +187,7 @@
                 $this->delete_from_filesystem($entry_name);
             }
 
-            return apc_store($entry_name, $filesystem_entry_value, $new_time_to_live);
+            return apc_store($entry_name, $filesystem_entry_value, $filesystem_entry['expiry']);
         }
 
         //Copy all entries from memory to the filesystem.
@@ -226,7 +226,7 @@
             {
                 foreach($filesystem_entry_array as $entry_name => $entry_value)
                 {
-                    apc_store($entry_name, $entry_value['data']);
+                    apc_store($entry_name, $entry_value['data'], $entry_value['expiry']);
 
                     if($delete_from_filesystem_after_copy == TRUE)
                     {
