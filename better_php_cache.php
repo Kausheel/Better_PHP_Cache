@@ -403,7 +403,7 @@
             }
             else
             {
-                return $cache_data['data'];
+                return $cache_data;
             }
         }
 
