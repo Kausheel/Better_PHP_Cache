@@ -34,9 +34,9 @@
         }
 
         //Store cache entry in memory by default, or optionally store in filesystem.
-        public function store($entry_name, $entry_value, $time_to_live, $store_in_filesystem = FALSE)
+        public function store($entry_name, $entry_value, $time_to_live = FALSE, $store_in_filesystem = FALSE)
         {
-            if(!($entry_name && $entry_value && $time_to_live))
+            if(!($entry_name && $entry_value))
             {
                 return FALSE;
             }
@@ -125,9 +125,9 @@
         }
 
         //Refresh an entry's TTL to prevent expiration.
-        public function refresh_entry_ttl($entry_name, $time_to_live, $entry_in_filesystem = FALSE)
+        public function refresh_entry_ttl($entry_name, $time_to_live = FALSE, $entry_in_filesystem = FALSE)
         {
-            if(!($entry_name && $time_to_live))
+            if(!$entry_name)
             {
                 return FALSE;
             }
@@ -162,7 +162,7 @@
         }
 
         //Copy an entry from memory to the filesystem, and optionally remove the original copy.
-        public function copy_entry_to_filesystem($entry_name, $time_to_live, $delete_from_memory = FALSE)
+        public function copy_entry_to_filesystem($entry_name, $time_to_live = FALSE, $delete_from_memory = FALSE)
         {
             $entry_value = apc_fetch($entry_name);
 
@@ -175,7 +175,7 @@
         }
 
         //Copy an entry from the filesystem to memory, and optionally remove the original copy.
-        public function copy_entry_to_memory($entry_name, $new_time_to_live, $delete_from_filesystem = FALSE)
+        public function copy_entry_to_memory($entry_name, $new_time_to_live = FALSE, $delete_from_filesystem = FALSE)
         {
             $filesystem_entry_value = $this->fetch_from_filesystem($entry_name);
 
