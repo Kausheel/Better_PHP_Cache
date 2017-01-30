@@ -395,7 +395,8 @@
             $cache_data = json_decode($cache_data, TRUE);
 
             //If the cache entry has expired, delete it.
-            if($cache_data['expiry'] < time())
+            //Ignore FALSE expiry values because they indicate a non-expiring entry.
+            if(($cache_data['expiry'] < time()) && $cache_data['expiry'] > 0)
             {
                 $this->delete_from_filesystem($entry_name);
                 return FALSE;
