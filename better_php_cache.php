@@ -204,15 +204,11 @@
             {
                 $time_to_live = $ttl_array[$entry_name];
 
-                //Only store the entry if it hasn't expired.
-                if($time_to_live != 'expired')
-                {
-                    $this->store_in_filesystem($entry_name, $entry_value, $time_to_live);
+                $this->store_in_filesystem($entry_name, $entry_value, $time_to_live);
 
-                    if($delete_from_memory_after_copy == TRUE)
-                    {
-                        $this->delete($entry_name);
-                    }
+                if($delete_from_memory_after_copy == TRUE)
+                {
+                    $this->delete($entry_name);
                 }
             }
         }
@@ -314,10 +310,6 @@
                 if($time_to_live >= 0)
                 {
                     $new_cache_array[$cache_entry['key']]['ttl'] = $time_to_live;
-                }
-                else
-                {
-                    $new_cache_array[$cache_entry['key']]['ttl'] = 'expired';
                 }
             }
 
