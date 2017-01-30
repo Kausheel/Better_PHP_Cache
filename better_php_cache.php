@@ -419,21 +419,12 @@
             //Cycle through each file name.
             foreach ($cache_files_array as $file)
             {
-                $file_contents = file_get_contents($file);
+                $decoded_file_contents = $this->fetch_from_filesystem($file);
 
-                //Convert the JSON data into an associative array.
-                $decoded_file_contents = json_decode($file_contents, TRUE);
-
-                //Check the expiry.
-                if($decoded_file_contents['expiry'] > $time)
+                if($decoded_file_contents)
                 {
                     //Add the cache entry to an array.
-                    $cache_data_array[$file] = $decoded_file_contents['data'];
-                }
-                else
-                {
-                    //Delete the expired entries from the filesystem.
-                    $this->delete_from_filesystem($file);
+                    $cache_data_array[$file] = $decoded_file_contents;
                 }
             }
 
