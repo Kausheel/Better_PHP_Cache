@@ -73,7 +73,8 @@
 
             if($fetch_from_filesystem == TRUE)
             {
-                $entry_value = $this->fetch_from_filesystem($entry_name);
+                $entry = $this->fetch_from_filesystem($entry_name);
+                $entry_value = $entry['data'];
             }
             else
             {
@@ -134,7 +135,8 @@
 
             if($entry_in_filesystem == TRUE)
             {
-                $entry_value = $this->fetch_from_filesystem($entry_name);
+                $entry = $this->fetch_from_filesystem($entry_name);
+                $entry_value = $entry['data'];
 
                 if($entry_value)
                 {
@@ -177,7 +179,8 @@
         //Copy an entry from the filesystem to memory, and optionally remove the original copy.
         public function copy_entry_to_memory($entry_name, $new_time_to_live = FALSE, $delete_from_filesystem = FALSE)
         {
-            $filesystem_entry_value = $this->fetch_from_filesystem($entry_name);
+            $filesystem_entry = $this->fetch_from_filesystem($entry_name);
+            $filesystem_entry_value = $filesystem_entry['data'];
 
             if($delete_from_filesystem == TRUE)
             {
@@ -223,7 +226,7 @@
             {
                 foreach($filesystem_entry_array as $entry_name => $entry_value)
                 {
-                    apc_store($entry_name, $entry_value);
+                    apc_store($entry_name, $entry_value['data']);
 
                     if($delete_from_filesystem_after_copy == TRUE)
                     {
