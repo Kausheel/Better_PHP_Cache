@@ -218,7 +218,7 @@
 
         //Copy all entries from the filesystem to memory.
         //Optionally, delete the original entries after copying.
-        public function copy_all_entries_to_memory($delete_from_filesystem_after_copy)
+        public function copy_all_entries_to_memory($delete_from_filesystem_after_copy = FALSE)
         {
             $filesystem_entry_array = $this->fetch_all_from_filesystem();
 
