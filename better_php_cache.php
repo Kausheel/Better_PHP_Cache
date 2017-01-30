@@ -362,7 +362,15 @@
         //Store entry to filesystem.
         private function store_in_filesystem($entry_name, $entry_value, $time_to_live)
         {
-            $expiry = $time_to_live + time();
+            //If no TTL is supplied, the entry will not expire.
+            if(!$time_to_live)
+            {
+                $expiry = FALSE;
+            }
+            else
+            {
+                $expiry = $time_to_live + time();
+            }
 
             //Append the cache data with an expiry field, and store it as a JSON array.
             $cache_data = array('data' => $entry_value, 'expiry' => $expiry);
