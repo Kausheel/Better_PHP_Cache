@@ -195,6 +195,11 @@
 
             $ttl_array = $this->fetch_every_ttl_from_memory();
 
+            if(!$memory_entry_array || !$ttl_array)
+            {
+                return FALSE;
+            }
+
             foreach ($memory_entry_array as $entry_name => $entry_value)
             {
                 $time_to_live = $ttl_array[$entry_name];
