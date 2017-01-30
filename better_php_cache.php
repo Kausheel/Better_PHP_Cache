@@ -193,13 +193,21 @@
         {
             $memory_entry_array = $this->fetch_all_from_memory();
 
+            $ttl_array = $this->fetch_every_ttl_from_memory();
+
             foreach ($memory_entry_array as $entry_name => $entry_value)
             {
-                $this->store_in_filesystem($entry_name, $entry_value, $time_to_live);
+                $time_to_live = $ttl_array[$entry_name];
 
-                if($delete_from_memory_after_copy == TRUE)
+                //Only store the entry if it hasn't expired.
+                if($time_to_live != 'expired')
                 {
-                    $this->delete($entry_name);
+                    $this->store_in_filesystem($entry_name, $entry_value, $time_to_live);
+
+                    if($delete_from_memory_after_copy == TRUE)
+                    {
+                        $this->delete($entry_name);
+                    }
                 }
             }
         }
@@ -278,6 +286,34 @@
             $cache_stats['most_stored_entry'] = $most_stored_entry['name'];
 
             return $cache_stats;
+        }
+
+        private function fetch_every_ttl_from_memory()
+        {
+            $apc_cache_info = apc_cache_info();
+            $entry_info_array = $apc_cache_info['cache_list'];
+
+            if(!$entry_info_array)
+            {
+                return FALSE;
+            }
+
+            foreach($entry_info_array as $cache_entry)
+            {
+                $expiry_time = $cache_entry['ttl'] + $cache_entry['ctime'];
+                $time_to_live = $expiry_time - time();
+
+                if($time_to_live >= 0)
+                {
+                    $new_cache_array[$cache_entry['key']]['ttl'] = $time_to_live;
+                }
+                else
+                {
+                    $new_cache_array[$cache_entry['key']]['ttl'] = 'expired';
+                }
+            }
+
+            return $new_cache_array;
         }
 
         private function increment_cache_stats_miss_count($cache_entry)
