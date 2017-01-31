@@ -168,6 +168,11 @@
         {
             $entry_value = apc_fetch($entry_name);
 
+            if(!$entry_value)
+            {
+                return FALSE;
+            }
+
             if($delete_from_memory == TRUE)
             {
                 apc_delete($entry_name);
