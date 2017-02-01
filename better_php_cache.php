@@ -470,10 +470,14 @@
                 $this->delete_from_filesystem($entry_name);
                 return FALSE;
             }
-            else
+
+            //If the number is a UNIX timestamp (as opposed to FALSE), then subtract the current time to get the TTL (measured in seconds).
+            if($cache_data['expiry'] > time())
             {
-                return $cache_data;
+                $cache_data['expiry'] = $cache_data['expiry'] - time();
             }
+
+            return $cache_data;
         }
 
         private function fetch_all_from_filesystem()
