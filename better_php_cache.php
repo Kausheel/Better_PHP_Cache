@@ -263,30 +263,7 @@
             }
 
             $most_fetched_entry = $this->find_most_fetched_entry();
-
-            $cache_stats = apc_fetch('cache_stats');
-
-            if(!$cache_stats)
-            {
-                return FALSE;
-            }
-
-            //Cycle through each cache entry
-            foreach($cache_stats as $cache_entry => $cache_data)
-            {
-                if(is_array($cache_data))
-                {
-                    if(array_key_exists('store_count', $cache_data))
-                    {
-                        //Find the cache entry with the highest store_count.
-                        if($cache_data['store_count'] > $most_stored_entry['count'])
-                        {
-                            $most_stored_entry['count'] = $cache_data['store_count'];
-                            $most_stored_entry['name'] = $cache_entry;
-                        }
-                    }
-                }
-            }
+            $most_stored_entry = $this->find_most_stored_entry();
 
             //Record the highest fetch_count and store_count
             $cache_stats['most_fetched_entry'] = $most_fetched_entry['name'];
@@ -323,6 +300,35 @@
             }
 
             return $most_fetched_entry;
+        }
+
+        private function find_most_stored_entry()
+        {
+            $cache_stats = apc_fetch('cache_stats');
+
+            if(!$cache_stats)
+            {
+                return FALSE;
+            }
+
+            //Cycle through each cache entry
+            foreach($cache_stats as $cache_entry => $cache_data)
+            {
+                if(is_array($cache_data))
+                {
+                    if(array_key_exists('store_count', $cache_data))
+                    {
+                        //Find the cache entry with the highest store_count.
+                        if($cache_data['store_count'] > $most_stored_entry['count'])
+                        {
+                            $most_stored_entry['count'] = $cache_data['store_count'];
+                            $most_stored_entry['name'] = $cache_entry;
+                        }
+                    }
+                }
+            }
+
+            return $most_stored_entry;
         }
 
         private function fetch_ttl_from_memory($entry_name)
