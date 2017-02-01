@@ -272,7 +272,7 @@
             return $cache_stats;
         }
 
-        private function find_most_fetched_entry()
+        public function find_most_fetched_entry()
         {
             $cache_stats = apc_fetch('cache_stats');
 
@@ -302,7 +302,7 @@
             return $most_fetched_entry;
         }
 
-        private function find_most_stored_entry()
+        public function find_most_stored_entry()
         {
             $cache_stats = apc_fetch('cache_stats');
 
