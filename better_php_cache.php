@@ -173,6 +173,28 @@
                 return FALSE;
             }
 
+            $apc_cache_info = apc_cache_info();
+            $cache_array = $apc_cache_info['cache_list'];
+
+            //Cycle through the cache entries to search for a TTL.
+            //This TTL needs to be transferred to the filesystem entry.
+            foreach($cache_array as $entry)
+            {
+                if($entry['key'] == $entry_name)
+                {
+                    //Calculate expiry time by adding the TTL with the creation time.
+                    $time_to_live = $entry['ttl'] + $entry['ctime'];
+
+                    //Don't bother copying the cache entry if it has expired.
+                    if($time_to_live <= time())
+                    {
+                        return FALSE;
+                    }
+
+                    break;
+                }
+            }
+
             if($delete_from_memory == TRUE)
             {
                 apc_delete($entry_name);
