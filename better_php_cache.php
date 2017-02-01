@@ -484,8 +484,6 @@
             //Remove the '.' and '..' entries added by default by the scandir() function.
             $cache_files_array = array_diff($cache_files_array, array('..', '.'));
 
-            $time = time();
-
             //Cycle through each file name.
             foreach ($cache_files_array as $file)
             {
