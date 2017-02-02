@@ -159,7 +159,7 @@
         }
 
         //Copy an entry from memory to the filesystem, and optionally remove the original copy.
-        public function copy_entry_to_filesystem($entry_name, $time_to_live = FALSE, $delete_from_memory = FALSE)
+        public function copy_entry_to_filesystem($entry_name, $delete_from_memory = FALSE)
         {
             $entry_value = apc_fetch($entry_name);
 
