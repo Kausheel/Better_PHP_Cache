@@ -338,7 +338,7 @@
 
         private function fetch_total_cache_monitoring_time()
         {
-            $cache_stats = apc_fetch['cache_stats'];
+            $cache_stats = apc_fetch('cache_stats');
             $total_monitored_duration_in_seconds = time() - $cache_stats['monitoring_start_timestamp'];
 
             return $total_monitored_duration_in_seconds;
