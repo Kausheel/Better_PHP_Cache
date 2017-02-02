@@ -23,13 +23,8 @@
                 if(!$cache_stats['monitoring_start_timestamp'])
                 {
                     $cache_stats['monitoring_start_timestamp'] = time();
+                    apc_store('cache_stats', $cache_stats);
                 }
-                else
-                {
-                    $cache_stats['total_monitored_duration_in_seconds'] = time() - $cache_stats['monitoring_start_timestamp'];
-                }
-
-                apc_store('cache_stats', $cache_stats);
             }
         }
 
@@ -262,12 +257,15 @@
                 return FALSE;
             }
 
+            $cache_stats = apc_fetch('cache_stats');
+
             $most_fetched_entry = $this->find_most_fetched_entry();
             $most_stored_entry = $this->find_most_stored_entry();
+            $total_monitored_duration_in_seconds = $this->fetch_total_cache_monitoring_time();
 
-            //Record the highest fetch_count and store_count
             $cache_stats['most_fetched_entry'] = $most_fetched_entry['name'];
             $cache_stats['most_stored_entry'] = $most_stored_entry['name'];
+            $cache_stats['total_monitored_duration_in_seconds'] = $total_monitored_duration_in_seconds;
 
             return $cache_stats;
         }
@@ -329,6 +327,14 @@
             }
 
             return $most_stored_entry;
+        }
+
+        private function fetch_total_cache_monitoring_time()
+        {
+            $cache_stats = apc_fetch['cache_stats'];
+            $total_monitored_duration_in_seconds = time() - $cache_stats['monitoring_start_timestamp'];
+
+            return $total_monitored_duration_in_seconds;
         }
 
         private function fetch_ttl_from_memory($entry_name)
