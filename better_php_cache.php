@@ -267,6 +267,8 @@
             $cache_stats['most_stored_entry'] = $most_stored_entry['name'];
             $cache_stats['total_monitored_duration_in_seconds'] = $total_monitored_duration_in_seconds;
 
+            apc_store('cache_stats', $cache_stats);
+
             return $cache_stats;
         }
 
