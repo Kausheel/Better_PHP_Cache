@@ -17,14 +17,7 @@
             //Check if cache statistics should be gathered.
             if($monitor_cache_stats == TRUE)
             {
-                $this->monitor_cache_stats = TRUE;
-                $cache_stats = apc_fetch('cache_stats');
-
-                if(!$cache_stats['monitoring_start_timestamp'])
-                {
-                    $cache_stats['monitoring_start_timestamp'] = time();
-                    apc_store('cache_stats', $cache_stats);
-                }
+                $this->begin_cache_monitoring();
             }
         }
 
@@ -329,6 +322,18 @@
             }
 
             return $most_stored_entry;
+        }
+
+        private function begin_cache_monitoring()
+        {
+            $this->monitor_cache_stats = TRUE;
+            $cache_stats = apc_fetch('cache_stats');
+
+            if(!$cache_stats['monitoring_start_timestamp'])
+            {
+                $cache_stats['monitoring_start_timestamp'] = time();
+                apc_store('cache_stats', $cache_stats);
+            }
         }
 
         private function fetch_total_cache_monitoring_time()
