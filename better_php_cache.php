@@ -158,6 +158,7 @@
         {
             $cache_stats = NULL;
             apc_store('cache_stats', $cache_stats);
+            $this->begin_cache_monitoring();
         }
 
         //Copy an entry from memory to the filesystem, and optionally remove the original copy.
