@@ -7,6 +7,20 @@
     {
         private $cache;
 
+        public function __construct()
+        {
+            apc_store('test_apc', 'data');
+            if(!apc_fetch('test_apc'))
+            {
+                echo "Warning: You need to enable the apc_cli option in your php.ini\n";
+                echo 'The currently loaded php.ini file is located at '.php_ini_loaded_file()."\n";
+                echo "Please open this file and add the following statement right at the end\n";
+                echo "apc.enable_cli = 1\n\n";
+                echo "Exiting\n";
+                exit;
+            }
+        }
+
         public function setUp()
         {
             $this->cache = new Better_PHP_Cache('cache', TRUE);
