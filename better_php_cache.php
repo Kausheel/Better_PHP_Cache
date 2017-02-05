@@ -53,12 +53,6 @@
                 return FALSE;
             }
 
-            //Track how often this entry has been fetched.
-            if($this->monitor_cache_stats == TRUE)
-            {
-                $this->increment_cache_stats_fetch_count($entry_name);
-            }
-
             if($fetch_from_filesystem == TRUE)
             {
                 $entry = $this->fetch_from_filesystem($entry_name);
@@ -69,10 +63,16 @@
                 $entry_value = apc_fetch($entry_name);
             }
 
-            //Track how often a cache fetch 'misses'.
-            if($this->monitor_cache_stats == TRUE && !$entry_value)
+            if($this->monitor_cache_stats == TRUE)
             {
-                $this->increment_cache_stats_miss_count($entry_name);
+                if(!$entry_value)
+                {
+                    $this->increment_cache_stats_miss_count($entry_name);
+                }
+                else
+                {
+                    $this->increment_cache_stats_fetch_count($entry_name);
+                }
             }
 
             return $entry_value;
