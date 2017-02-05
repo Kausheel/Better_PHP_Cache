@@ -252,13 +252,9 @@
 
             $cache_stats = apc_fetch('cache_stats');
 
-            $most_fetched_entry = $this->find_most_fetched_entry();
-            $most_stored_entry = $this->find_most_stored_entry();
-            $total_monitored_duration_in_seconds = $this->fetch_total_cache_monitoring_time();
-
-            $cache_stats['most_fetched_entry'] = $most_fetched_entry['name'];
-            $cache_stats['most_stored_entry'] = $most_stored_entry['name'];
-            $cache_stats['total_monitored_duration_in_seconds'] = $total_monitored_duration_in_seconds;
+            $cache_stats['most_fetched_entry'] = $this->find_most_fetched_entry();
+            $cache_stats['most_stored_entry'] = $this->find_most_stored_entry();
+            $cache_stats['total_monitored_duration_in_seconds'] = $this->fetch_total_cache_monitoring_time();
 
             apc_store('cache_stats', $cache_stats);
 
