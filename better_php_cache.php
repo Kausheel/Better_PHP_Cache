@@ -75,7 +75,14 @@
                 }
             }
 
-            return $entry_value;
+            if($entry_value)
+            {
+                return $entry_value;
+            }
+            else
+            {
+                return FALSE;
+            }
         }
 
         //Delete entry from memory by default, or optionally delete from filesystem.
@@ -111,6 +118,8 @@
                 //Therefore, we don't need to run another delete function. Just fetching every entry is enough to remove the expired ones.
                 $this->fetch_all_from_filesystem();
             }
+
+            return TRUE;
         }
 
         //Refresh an entry's TTL to prevent expiration.
@@ -214,6 +223,8 @@
                     $this->delete($entry_name);
                 }
             }
+
+            return TRUE;
         }
 
         //Copy all entries from the filesystem to memory.
@@ -346,6 +357,8 @@
                 $cache_stats['monitoring_start_timestamp'] = time();
                 apc_store('cache_stats', $cache_stats);
             }
+
+            return TRUE;
         }
 
         private function fetch_total_cache_monitoring_time()
@@ -390,6 +403,8 @@
                     break;
                 }
             }
+
+            return FALSE;
         }
 
         //Get the expiry times of memory cache entries
@@ -430,21 +445,21 @@
         {
             $cache_stats = apc_fetch('cache_stats');
             $cache_stats[$cache_entry]['miss_count'] = $cache_stats[$cache_entry]['miss_count'] + 1;
-            apc_store('cache_stats', $cache_stats);
+            return apc_store('cache_stats', $cache_stats);
         }
 
         private function increment_cache_stats_store_count($cache_entry)
         {
             $cache_stats = apc_fetch('cache_stats');
             $cache_stats[$cache_entry]['store_count'] = $cache_stats[$cache_entry]['store_count'] + 1;
-            apc_store('cache_stats', $cache_stats);
+            return apc_store('cache_stats', $cache_stats);
         }
 
         private function increment_cache_stats_fetch_count($cache_entry)
         {
             $cache_stats = apc_fetch('cache_stats');
             $cache_stats[$cache_entry]['fetch_count'] = $cache_stats[$cache_entry]['fetch_count'] + 1;
-            apc_store('cache_stats', $cache_stats);
+            return apc_store('cache_stats', $cache_stats);
         }
 
         //Fetch all cache entries from memory.
