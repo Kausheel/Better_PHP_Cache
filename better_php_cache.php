@@ -292,7 +292,7 @@
                 }
             }
 
-            return $most_fetched_entry;
+            return $most_fetched_entry['name'];
         }
 
         public function find_most_stored_entry()
@@ -321,7 +321,9 @@
                 }
             }
 
-            return $most_stored_entry;
+            return $most_stored_entry['name'];
+        }
+
         //Clear out the filesystem cache entries.
         public function delete_all_from_filesystem()
         {
