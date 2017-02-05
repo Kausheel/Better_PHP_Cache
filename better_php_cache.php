@@ -369,20 +369,29 @@
             {
                 if($entry['key'] == $entry_name)
                 {
-                    //Calculate expiry time by adding the TTL with the creation time.
-                    $time_to_live = $entry['ttl'] + $entry['ctime'];
-
-                    //Don't bother copying the cache entry if it has expired.
-                    if($time_to_live <= time())
+                    if($entry['ttl'] > 0)
                     {
-                        return 'expired';
+                        //Calculate expiry time by adding the TTL with the creation time.
+                        $time_to_live = $entry['ttl'] + $entry['ctime'] - time();
+
+                        //Don't bother copying the cache entry if it has expired.
+                        if($time_to_live < 1)
+                        {
+                            return 'expired';
+                        }
+                        else
+                        {
+                            return $time_to_live;
+                        }
+                    }
+                    else
+                    {
+                        return $entry['ttl'];
                     }
 
                     break;
                 }
             }
-
-            return $time_to_live;
         }
 
         //Get the expiry times of memory cache entries
