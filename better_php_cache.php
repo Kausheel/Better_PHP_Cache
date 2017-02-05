@@ -341,11 +341,16 @@
             //Remove the '.' and '..' entries added by default by the scandir() function.
             $cache_files_array = array_diff($cache_files_array, array('..', '.'));
 
+            $count_deleted_files = 0;
+
             //Cycle through each file name.
             foreach ($cache_files_array as $file)
             {
                 unlink($file);
+                $count_deleted_files = $count_deleted_files + 1;
             }
+
+            return $count_deleted_files;
         }
 
         private function begin_cache_monitoring()
