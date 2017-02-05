@@ -111,8 +111,9 @@
         public function test_fetch_cache_stats()
         {
             @$this->cache->store('key_7', 'value_7');
-            @$this->cache->fetch('key_7', 'value_7');
+            @$this->cache->fetch('key_7');
             @$cache_stats = $this->cache->fetch_cache_stats();
+
             $this->assertTrue($cache_stats['key_7']['store_count'] > 0);
             $this->assertTrue($cache_stats['key_7']['fetch_count'] > 0);
         }
@@ -212,10 +213,10 @@
             @$this->cache->store('entry_2', 'value_1');
             @$this->cache->store('entry_3', 'value_1');
 
-            @$this->cache->fetch('entry_1', 'value_1');
-            @$this->cache->fetch('entry_1', 'value_1');
-            @$this->cache->fetch('entry_2', 'value_1');
-            @$this->cache->fetch('entry_3', 'value_1');
+            @$this->cache->fetch('entry_1');
+            @$this->cache->fetch('entry_1');
+            @$this->cache->fetch('entry_2');
+            @$this->cache->fetch('entry_3');
 
             $this->assertEquals('entry_1', @$this->cache->find_most_fetched_entry());
         }
