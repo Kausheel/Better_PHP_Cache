@@ -55,7 +55,7 @@
             $file = json_encode(array('data' => 'test_data', 'expiry' => time() - 2));
             file_put_contents('test_entry', $file);
 
-            $this->assertNull(@$this->cache->fetch('test_entry', TRUE));
+            $this->assertFalse(@$this->cache->fetch('test_entry', TRUE));
         }
 
         public function test_delete_from_memory()
@@ -69,7 +69,7 @@
         {
             @$this->cache->store('key_5', 'value_5', 5, TRUE);
             $this->cache->delete('key_5', TRUE);
-            $this->assertNull(@$this->cache->fetch('key_5', TRUE));
+            $this->assertFalse(@$this->cache->fetch('key_5', TRUE));
         }
 
         public function test_delete_expired_entries_from_filesystem()
@@ -82,8 +82,8 @@
 
             @$this->cache->delete_expired_entries(TRUE);
 
-            $this->assertNull(@$this->cache->fetch('key_5', TRUE));
-            $this->assertNull(@$this->cache->fetch('key_6', TRUE));
+            $this->assertFalse(@$this->cache->fetch('key_5', TRUE));
+            $this->assertFalse(@$this->cache->fetch('key_6', TRUE));
         }
 
         public function test_refresh_entry_ttl_from_memory()
@@ -146,7 +146,7 @@
             @$this->cache->copy_entry_to_memory('key_10', TRUE);
 
             $this->assertEquals('value_10', @$this->cache->fetch('key_10'));
-            $this->assertNull(@$this->cache->fetch('key_10', TRUE));
+            $this->assertFalse(@$this->cache->fetch('key_10', TRUE));
         }
 
         public function test_copy_all_entries_to_filesystem()
@@ -191,8 +191,8 @@
             $this->assertEquals('test1', @$this->cache->fetch('entry_1'));
             $this->assertEquals('test2', @$this->cache->fetch('entry_2'));
 
-            $this->assertNull(@$this->cache->fetch('entry_1', TRUE));
-            $this->assertNull(@$this->cache->fetch('entry_2', TRUE));
+            $this->assertFalse(@$this->cache->fetch('entry_1', TRUE));
+            $this->assertFalse(@$this->cache->fetch('entry_2', TRUE));
         }
 
         public function test_find_most_stored_entry()
