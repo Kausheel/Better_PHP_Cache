@@ -398,14 +398,21 @@
 
             foreach($entry_info_array as $cache_entry)
             {
-                //For each entry, calculate the expiry time by adding the TTL with the creation time.
-                $expiry_time = $cache_entry['ttl'] + $cache_entry['ctime'];
-                $time_to_live = $expiry_time - time();
-
-                //If the entry hasn't expired, store the TTL.
-                if($time_to_live >= 0)
+                if($cache_entry['ttl'] != 0)
                 {
-                    $new_cache_array[$cache_entry['key']]['ttl'] = $time_to_live;
+                    //For each entry, calculate the expiry time by adding the TTL with the creation time.
+                    $expiry_time = $cache_entry['ttl'] + $cache_entry['ctime'];
+                    $time_to_live = $expiry_time - time();
+
+                    //If the entry hasn't expired, store the TTL.
+                    if($time_to_live >= 0)
+                    {
+                        $new_cache_array[$cache_entry['key']] = $time_to_live;
+                    }
+                }
+                else
+                {
+                    $new_cache_array[$cache_entry['key']] = $cache_entry['ttl'];
                 }
             }
 
