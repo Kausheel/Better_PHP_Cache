@@ -121,11 +121,14 @@
         public function test_reset_cache_stats()
         {
             @$this->cache->store('key_8', 'value_8');
+
+            @$cache_stats = $this->cache->fetch_cache_stats();
+            $this->assertArrayHasKey('key_8', $cache_stats);
+
             @$this->cache->reset_cache_stats();
 
-            //@$cache_stats = $this->cache->fetch_cache_stats();
-            //$this->assertFalse($cache_stats['key_8']['stored_count'] > 0);
-            //Fix reset_cache_stats()
+            @$cache_stats = $this->cache->fetch_cache_stats();
+            $this->assertArrayNotHasKey('key_8', $cache_stats);
         }
 
         public function test_copy_entry_to_filesystem()
