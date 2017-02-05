@@ -322,6 +322,20 @@
             }
 
             return $most_stored_entry;
+        //Clear out the filesystem cache entries.
+        public function delete_all_from_filesystem()
+        {
+            //Get a list of all cache files.
+            $cache_files_array = scandir(getcwd());
+
+            //Remove the '.' and '..' entries added by default by the scandir() function.
+            $cache_files_array = array_diff($cache_files_array, array('..', '.'));
+
+            //Cycle through each file name.
+            foreach ($cache_files_array as $file)
+            {
+                unlink($file);
+            }
         }
 
         private function begin_cache_monitoring()
